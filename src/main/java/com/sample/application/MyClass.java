@@ -1,20 +1,21 @@
 package com.sample.application;
 
-import com.sample.application.engines.IEngine;
+import com.sample.application.engines.EngineFactory;
+import com.sample.application.configuration.MyObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
 
 @Component
 public class MyClass {
-    private IEngine engine;
+    @Autowired
+    MyObject myObject;
 
     @Autowired
-    public MyClass(@Qualifier(value = "engine") IEngine engine) {
-        this.engine = engine;
-    }
+    EngineFactory engineFactory;
 
-    public void print() {
-        System.out.println("Selected engine is: " + engine.getType());
+    public void print() throws IOException {
+        System.out.println("Selected engine is: " + engineFactory.getEngine(myObject.getType()).getType());
     }
 }
